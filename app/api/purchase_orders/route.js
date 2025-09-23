@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
 // Initialize BigQuery client
-// This automatically uses the credentials from environment variables
 const bigquery = new BigQuery();
 
 const datasetId = "production_planner";
@@ -13,10 +12,8 @@ const tableId = "purchase_orders";
 export async function GET(request) {
     try {
         const query = `SELECT * FROM \`${datasetId}.${tableId}\``;
-        const options = { query: query };
+        const [rows] = await bigquery.query({ query });
 
-        const [rows] = await bigquery.query(options);
-        
         // Format dates that BigQuery might return as objects
         const formattedRows = rows.map(row => ({
             ...row,
@@ -26,7 +23,7 @@ export async function GET(request) {
         }));
 
         return NextResponse.json(formattedRows);
-    } catch (error)
+    } catch (error) { // <-- BRACE WAS MISSING HERE
         console.error('ERROR FETCHING PURCHASE ORDERS:', error);
         return NextResponse.json({ message: 'Failed to fetch purchase orders', error: error.message }, { status: 500 });
     }
@@ -37,23 +34,23 @@ export async function POST(request) {
     try {
         const body = await request.json();
 
-        // Basic validation for purchase order fields
-        if (!body.supplier || !body.product || !body.qty || !body.po_number) {
+        if (!body.supplier || !body.po_number || !body.product || !body.qty) {
             return NextResponse.json({ message: 'Missing required fields for purchase order' }, { status: 400 });
         }
         
         const newOrder = {
-            id: uuidv4(), // Generate a unique ID
+            id: uuidv4(),
             ...body,
-            status: 'Pending', // Default status for a new PO
+            status: body.status || 'Pending',
             timestamp: new Date(),
         };
 
         await bigquery.dataset(datasetId).table(tableId).insert(newOrder);
         
         return NextResponse.json({ message: 'Purchase order created successfully', order: newOrder }, { status: 201 });
-    } catch (error) {
+    } catch (error) { // <-- BRACE WAS MISSING HERE
         console.error('ERROR CREATING PURCHASE ORDER:', error);
         return NextResponse.json({ message: 'Failed to create purchase order', error: error.message }, { status: 500 });
     }
 }
+
