@@ -14,7 +14,6 @@ export async function GET(request) {
         const query = `SELECT * FROM \`${datasetId}.${tableId}\``;
         const [rows] = await bigquery.query({ query });
 
-        // Format dates that BigQuery might return as objects
         const formattedRows = rows.map(row => ({
             ...row,
             order_date: row.order_date ? row.order_date.value : null,
@@ -23,7 +22,7 @@ export async function GET(request) {
         }));
 
         return NextResponse.json(formattedRows);
-    } catch (error) { // <-- BRACE WAS MISSING HERE
+    } catch (error) {
         console.error('ERROR FETCHING PURCHASE ORDERS:', error);
         return NextResponse.json({ message: 'Failed to fetch purchase orders', error: error.message }, { status: 500 });
     }
@@ -48,9 +47,8 @@ export async function POST(request) {
         await bigquery.dataset(datasetId).table(tableId).insert(newOrder);
         
         return NextResponse.json({ message: 'Purchase order created successfully', order: newOrder }, { status: 201 });
-    } catch (error) { // <-- BRACE WAS MISSING HERE
+    } catch (error) {
         console.error('ERROR CREATING PURCHASE ORDER:', error);
         return NextResponse.json({ message: 'Failed to create purchase order', error: error.message }, { status: 500 });
     }
 }
-
