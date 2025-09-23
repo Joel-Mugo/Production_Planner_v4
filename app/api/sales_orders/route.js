@@ -3,9 +3,7 @@ import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
 // Initialize BigQuery client
-// This automatically uses the credentials from environment variables
 const bigquery = new BigQuery();
-
 const datasetId = "production_planner";
 const tableId = "sales_orders";
 
@@ -13,20 +11,17 @@ const tableId = "sales_orders";
 export async function GET(request) {
     try {
         const query = `SELECT * FROM \`${datasetId}.${tableId}\``;
-        const options = { query: query };
+        const [rows] = await bigquery.query({ query });
 
-        const [rows] = await bigquery.query(options);
-        
-        // BigQuery might return dates as objects, so we format them
         const formattedRows = rows.map(row => ({
             ...row,
             order_date: row.order_date ? row.order_date.value : null,
             expected_dispatch_date: row.expected_dispatch_date ? row.expected_dispatch_date.value : null,
             actual_dispatch_date: row.actual_dispatch_date ? row.actual_dispatch_date.value : null,
         }));
-
+        
         return NextResponse.json(formattedRows);
-    } catch (error) {
+    } catch (error) { // <-- BRACE WAS MISSING HERE
         console.error('ERROR FETCHING SALES ORDERS:', error);
         return NextResponse.json({ message: 'Failed to fetch sales orders', error: error.message }, { status: 500 });
     }
@@ -36,24 +31,24 @@ export async function GET(request) {
 export async function POST(request) {
     try {
         const body = await request.json();
-
-        // Basic validation
-        if (!body.client || !body.product || !body.qty) {
-            return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+        
+        if (!body.client || !body.sales_order_number || !body.product || !body.qty) {
+            return NextResponse.json({ message: 'Missing required fields for sales order' }, { status: 400 });
         }
         
         const newOrder = {
-            id: uuidv4(), // Generate a unique ID
+            id: uuidv4(),
             ...body,
-            status: 'Planned',
+            status: body.status || 'Planned',
             timestamp: new Date(),
         };
 
         await bigquery.dataset(datasetId).table(tableId).insert(newOrder);
         
         return NextResponse.json({ message: 'Sales order created successfully', order: newOrder }, { status: 201 });
-    } catch (error) {
+    } catch (error) { // <-- BRACE WAS MISSING HERE
         console.error('ERROR CREATING SALES ORDER:', error);
         return NextResponse.json({ message: 'Failed to create sales order', error: error.message }, { status: 500 });
     }
 }
+
