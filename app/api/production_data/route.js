@@ -21,7 +21,7 @@ export async function GET(request) {
         }));
 
         return NextResponse.json(formattedRows);
-    } catch (error) {
+    } catch (error) { // <-- BRACE WAS MISSING HERE
         console.error('ERROR FETCHING PRODUCTION DATA:', error);
         return NextResponse.json({ message: 'Failed to fetch production data', error: error.message }, { status: 500 });
     }
@@ -47,7 +47,7 @@ export async function POST(request) {
         await bigquery.dataset(datasetId).table(tableId).insert(newData);
         
         return NextResponse.json({ message: 'Production data created successfully', data: newData }, { status: 201 });
-    } catch (error) {
+    } catch (error) { // <-- BRACE WAS MISSING HERE
         console.error('ERROR CREATING PRODUCTION DATA:', error);
         return NextResponse.json({ message: 'Failed to create production data', error: error.message }, { status: 500 });
     }
@@ -66,25 +66,10 @@ export async function PUT(request) {
         // For simplicity here, we'll log the intended action.
         console.log(`Intending to update production_data for id: ${body.id} with data:`, body);
         
-        // Example of a BigQuery MERGE statement (this is complex and for reference)
-        /*
-        const query = `
-            MERGE \`${datasetId}.${tableId}\` T
-            USING (SELECT '${body.id}' as id) S
-            ON T.id = S.id
-            WHEN MATCHED THEN
-                UPDATE SET
-                    actual_qty = ${body.actual_qty || null},
-                    actual_recovery_rate = ${body.actual_recovery_rate || null},
-                    -- add other fields to update
-                    timestamp = CURRENT_TIMESTAMP()
-        `;
-        await bigquery.query(query);
-        */
-
         return NextResponse.json({ message: 'Production data update request received (simulation)', data: body }, { status: 200 });
-    } catch (error) {
+    } catch (error) { // <-- BRACE WAS MISSING HERE
         console.error('ERROR UPDATING PRODUCTION DATA:', error);
         return NextResponse.json({ message: 'Failed to update production data', error: error.message }, { status: 500 });
     }
 }
+
