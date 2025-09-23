@@ -21,7 +21,7 @@ export async function GET(request) {
         }));
         
         return NextResponse.json(formattedRows);
-    } catch (error) { // <-- BRACE WAS MISSING HERE
+    } catch (error) {
         console.error('ERROR FETCHING SALES ORDERS:', error);
         return NextResponse.json({ message: 'Failed to fetch sales orders', error: error.message }, { status: 500 });
     }
@@ -46,9 +46,8 @@ export async function POST(request) {
         await bigquery.dataset(datasetId).table(tableId).insert(newOrder);
         
         return NextResponse.json({ message: 'Sales order created successfully', order: newOrder }, { status: 201 });
-    } catch (error) { // <-- BRACE WAS MISSING HERE
+    } catch (error) {
         console.error('ERROR CREATING SALES ORDER:', error);
         return NextResponse.json({ message: 'Failed to create sales order', error: error.message }, { status: 500 });
     }
 }
-
