@@ -37,20 +37,33 @@ const api = {
 // This is temporary until all API routes are built.
 const MOCK_DATA = {
     factories: [
-        { id: 'F001', name: 'Nairobi Greens', daily_capacity: 5000, location: 'Nairobi, Kenya', status: 'Active' },
-        { id: 'F002', name: 'Mombasa Oils', daily_capacity: 7500, location: 'Mombasa, Kenya', status: 'Active' },
-        { id: 'F003', name: 'Kisumu Harvest', daily_capacity: 6000, location: 'Kisumu, Kenya', status: 'Under Maintenance' },
-        { id: 'F004', name: 'Eldoret Fields', daily_capacity: 4500, location: 'Eldoret, Kenya', status: 'Idle' },
+        { id: 'F001', name: 'Athi River', daily_capacity: 10000, location: 'Athi River, Kenya', status: 'Active' },
+        { id: 'F002', name: 'Lunga Factory', daily_capacity: 10000, location: 'Kwale, Kenya', status: 'Active' },
+        { id: 'F003', name: 'Mt Kenya Factory', daily_capacity: 10000, location: 'Nanyuki, Kenya', status: 'Under Maintenance' },
+        { id: 'F004', name: 'Mara Factory', daily_capacity: 6000, location: 'Narok, Kenya', status: 'Idle' },
+        { id: 'F005', name: 'La Cite Factory', daily_capacity: 8000, location: 'Antananarivo, Madagascar', status: 'Partially Active' },
+        { id: 'F006', name: 'Fangato Factory', daily_capacity: 8000, location: 'Mananjary, Madagascar', status: 'Active' },
+        { id: 'F007', name: 'Amani Factory', daily_capacity: 8000, location: 'Amani, Tanzania', status: 'Active' },
     ],
     production_data: [
-        { id: 'PD00', factory_id: 'F001', product: 'Avocado Oil', week: 36, year: 2024, qty: 14500, recovery_rate: 0.15, active_days: 5, start_date: '2024-09-02', actual_qty: 14800, actual_recovery_rate: 0.155 },
-        { id: 'PD001', factory_id: 'F002', product: 'Macadamia Oil', week: 36, year: 2024, qty: 21000, recovery_rate: 0.28, active_days: 6, start_date: '2024-09-02', actual_qty: 20500, actual_recovery_rate: 0.29 },
-        { id: 'PD01', factory_id: 'F001', product: 'Avocado Oil', week: 37, year: 2024, qty: 15000, recovery_rate: 0.15, active_days: 5, start_date: '2024-09-09', actual_qty: null, actual_recovery_rate: null },
-        { id: 'PD02', factory_id: 'F002', product: 'Macadamia Oil', week: 37, year: 2024, qty: 22000, recovery_rate: 0.28, active_days: 6, start_date: '2024-09-10', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD00', factory_id: 'F001', product: 'Avocado', week: 39, year: 2025, qty: 1000000, recovery_rate: 0.07, active_days: 6, start_date: '2025-09-21', actual_qty: 900800, actual_recovery_rate: 0.065 },
+        { id: 'PD01', factory_id: 'F001', product: 'Macadamia', week: 39, year: 2025, qty: 35000, recovery_rate: 0.60, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD02', factory_id: 'F001', product: 'Moringa', week: 39, year: 2025, qty: 75000, recovery_rate: 0.155, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD001', factory_id: 'F002', product: 'Eucalyptus Citriodora', week: 39, year: 2025, qty: 200000, recovery_rate: 0.0114, active_days: 6, start_date: '2025-09-21', actual_qty: 190500, actual_recovery_rate: 0.009 },
+        { id: 'PD002', factory_id: 'F002', product: 'Ginger Roots', week: 39, year: 2025, qty: 48000, recovery_rate: 0.0036, active_days: 6, start_date: '2025-09-21', actual_qty: 53500, actual_recovery_rate: 0.004 },
+        { id: 'PD0001', factory_id: 'F003', product: 'Rose Geranium', week: 39, year: 2025, qty: 100000, recovery_rate: 0.0012, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD0002', factory_id: 'F003', product: 'Rosemary FFL', week: 39, year: 2025, qty: 75000, recovery_rate: 0.0054, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD00001', factory_id: 'F004', product: 'Thyme', week: 39, year: 2025, qty: 100000, recovery_rate: 0.0059, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD00002', factory_id: 'F004', product: 'Rosemary', week: 39, year: 2025, qty: 75000, recovery_rate: 0.0054, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD000001', factory_id: 'F005', product: 'Cinnaomon', week: 39, year: 2025, qty: 100000, recovery_rate: 0.0060, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD000002', factory_id: 'F005', product: 'Blackpepper', week: 39, year: 2025, qty: 55000, recovery_rate: 0.0380, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD0000001', factory_id: 'F006', product: 'Clove Buds', week: 39, year: 2025, qty: 90000, recovery_rate: 0.1250, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD0000002', factory_id: 'F006', product: 'Vetiver', week: 39, year: 2025, qty: 75000, recovery_rate: 0.0100, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
+        { id: 'PD00000001', factory_id: 'F007', product: 'Bitter Orange Leaves', week: 39, year: 2025, qty: 75000, recovery_rate: 0.0050, active_days: 6, start_date: '2024-09-21', actual_qty: null, actual_recovery_rate: null },
     ],
     purchase_orders: [
-        { id: 'PO001', supplier: 'Green Farms Ltd.', po_number: 'PO-77543', product: 'Raw Macadamia', qty: 50000, order_date: '2024-08-01', expected_delivery_date: '2024-09-15', actual_delivery_date: null, status: 'In Transit' },
-        { id: 'PO002', supplier: 'AgriSource Inc.', po_number: 'PO-77544', product: 'Raw Avocados', qty: 80000, order_date: '2024-08-10', expected_delivery_date: '2024-09-05', actual_delivery_date: '2024-09-06', status: 'Delivered' },
+        { id: 'PO001', supplier: 'Uganda Aromatics Ltd.', po_number: 'PO-77543', product: 'Moringa Seeds', qty: 50000, order_date: '2025-09-01', expected_delivery_date: '2025-10-15', actual_delivery_date: null, status: 'In Transit' },
+        { id: 'PO002', supplier: 'KFP.', po_number: 'PO-77544', product: 'Shea Nuts', qty: 80000, order_date: '2025-08-10', expected_delivery_date: '2025-09-20', actual_delivery_date: '2025-09-21', status: 'Delivered' },
     ],
 };
 
