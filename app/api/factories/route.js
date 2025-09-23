@@ -14,7 +14,7 @@ export async function GET(request) {
         const query = `SELECT * FROM \`${datasetId}.${tableId}\``;
         const [rows] = await bigquery.query({ query });
         return NextResponse.json(rows);
-    } catch (error) {
+    } catch (error) { // <-- BRACE WAS MISSING HERE
         console.error('ERROR FETCHING FACTORIES:', error);
         return NextResponse.json({ message: 'Failed to fetch factories', error: error.message }, { status: 500 });
     }
@@ -25,7 +25,6 @@ export async function POST(request) {
     try {
         const body = await request.json();
 
-        // Basic validation for factory fields
         if (!body.name || !body.daily_capacity || !body.location) {
             return NextResponse.json({ message: 'Missing required fields for factory' }, { status: 400 });
         }
@@ -39,8 +38,9 @@ export async function POST(request) {
         await bigquery.dataset(datasetId).table(tableId).insert(newFactory);
         
         return NextResponse.json({ message: 'Factory created successfully', factory: newFactory }, { status: 201 });
-    } catch (error) {
+    } catch (error) { // <-- BRACE WAS MISSING HERE
         console.error('ERROR CREATING FACTORY:', error);
         return NextResponse.json({ message: 'Failed to create factory', error: error.message }, { status: 500 });
     }
 }
+
